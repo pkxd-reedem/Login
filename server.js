@@ -16,6 +16,9 @@ app.post("/send", (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(3000, () => {
-  console.log("Server çalışıyor: http://localhost:3000");
+// 🔥 EN ÖNEMLİ SATIR
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server çalışıyor:", PORT);
 });
