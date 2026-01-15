@@ -18,14 +18,14 @@ html, body{
   height:100%;
 }
 
-/* ARKA PLAN */
 body{
   background: url("images/background.png") no-repeat center center fixed;
   background-size:cover;
+  overflow-x:hidden;
 }
 
 /* =========================
-   PK XD TOP BANNER (YENİ)
+   PK XD TOP BANNER
    ========================= */
 .topbar{
   width:100%;
@@ -61,10 +61,6 @@ body{
   opacity:.9;
 }
 
-.topbar-menu a:hover{
-  opacity:1;
-}
-
 .topbar-right{
   display:flex;
   align-items:center;
@@ -90,15 +86,8 @@ body{
   cursor:pointer;
 }
 
-/* MOBİL */
-@media(max-width:768px){
-  .topbar-menu{
-    display:none;
-  }
-}
-
 /* =========================
-   PK XD LOGIN PANEL
+   LOGIN PANEL
    ========================= */
 .login-panel{
   width:420px;
@@ -172,12 +161,65 @@ button.active{
   color:white;
   font-weight:bold;
 }
+
+/* =========================
+   MOBİL OPTİMİZASYON
+   ========================= */
+@media (max-width: 768px){
+  .topbar-menu{
+    display:none;
+  }
+}
+
+@media (max-width: 480px){
+
+  .topbar{
+    height:60px;
+    padding:0 15px;
+  }
+
+  .topbar-left img{
+    height:32px;
+  }
+
+  .play-btn{
+    padding:8px 14px;
+    font-size:13px;
+  }
+
+  .lang-btn{
+    padding:6px 10px;
+    font-size:12px;
+  }
+
+  .login-panel{
+    width:90%;
+    margin:40px auto;
+    padding:25px 20px 30px;
+    border-radius:22px;
+  }
+
+  .logo-panel{
+    width:100px;
+    margin-bottom:20px;
+  }
+
+  .login-panel input{
+    padding:14px;
+    font-size:14px;
+  }
+
+  button{
+    padding:14px;
+    font-size:16px;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<!-- PK XD BANNER -->
+<!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-left">
     <img src="images/pkxd_logov2.png" alt="PK XD">
@@ -197,7 +239,7 @@ button.active{
   </div>
 </div>
 
-<!-- LOGIN -->
+<!-- LOGIN PANEL -->
 <div class="login-panel">
   <div class="logo-panel">
     <img src="images/pkxd_logov2.png" alt="PK XD Logo">
